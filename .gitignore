@@ -27,7 +27,9 @@
 *.env
 !.env.example
 
-# Logs and debug files
+# Runtime, generated PDFs, logs and debug files
+shipping_label/
+*.pdf
 *.log
 debug_bd.json
 woocommerce/*.log
