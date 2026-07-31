@@ -76,7 +76,10 @@
 <script>
     $(document).ready(function() {
         $('#multiple-checkboxes').multiselect({
-        includeSelectAllOption: true
+            includeSelectAllOption: true,
+            enableFiltering: true,
+            enableCaseInsensitiveFiltering: true,
+            filterPlaceholder: 'Search User / Seller...'
         });
     });
 </script>
