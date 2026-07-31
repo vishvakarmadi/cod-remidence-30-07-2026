@@ -27,6 +27,7 @@ use Rap2hpoutre\FastExcel\FastExcel;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Facades\Schema;
 use DOMDocument;
 use DB;
 use App\Models\Admin\Transaction;
@@ -3681,7 +3682,7 @@ if ($request->invoice_no) {
    public function bulkorderstore1(Request $request)
    {
         try {
-            $collections = (new FastExcel)->import($request->file('excel'));
+            $collections = importExcelOrCsv($request->file('excel'));
         } catch (\Exception $exception) {
             return back()->with('error','You have uploaded a wrong format file, please upload the right file.');
         }
@@ -4030,7 +4031,7 @@ if ($request->invoice_no) {
     public function bulkorderstore(Request $request)
     {
         try {
-            $collections = (new FastExcel)->import($request->file('excel'));
+            $collections = importExcelOrCsv($request->file('excel'));
         } catch (\Exception $exception) {
             return back()->with('error', 'You have uploaded a wrong format file, please upload the right file.');
         }
@@ -4504,8 +4505,9 @@ if ($request->invoice_no) {
         }
 
         if($user->role_id =='1'){
-            $order_q = Order::where('orders.status',3)->where('orders.payment_mode',6)->where('orders.cod_status', 'success')
-                ->whereNotNull('orders.remittance_id');
+            $order_q = Order::where('orders.cod_status', 'success')
+                ->whereNotNull('orders.remittance_id')
+                ->where('orders.remittance_id', '>', 0);
             if($selected_user_id !== null){
                 $order_q->where('orders.user_id', $selected_user_id);
             }
@@ -4517,8 +4519,9 @@ if ($request->invoice_no) {
             $allusers = Admin::where('delete_status',0)->get();  
         }elseif($user->role_id =='2'){
             $sub_user_id = Admin::getsubuserid($user->id);
-            $order_q = Order::where('orders.status',3)->where('orders.payment_mode',6)->where('orders.cod_status', 'success')
+            $order_q = Order::where('orders.cod_status', 'success')
                 ->whereNotNull('orders.remittance_id')
+                ->where('orders.remittance_id', '>', 0)
                 ->whereIn('orders.user_id',$sub_user_id);
             if($selected_user_id !== null){
                 $order_q->where('orders.user_id', $selected_user_id);
@@ -4533,8 +4536,9 @@ if ($request->invoice_no) {
             ->get(); 
         }else{
             $selected_user_id = $user->id;
-            $order_q = Order::where('orders.status',3)->where('orders.payment_mode',6)->where('orders.cod_status', 'success')
+            $order_q = Order::where('orders.cod_status', 'success')
                 ->whereNotNull('orders.remittance_id')
+                ->where('orders.remittance_id', '>', 0)
                 ->where('orders.user_id',$user->id);
             $order_q = $order_q
                 ->join('admins', 'orders.user_id', '=', 'admins.id')
@@ -5212,6 +5216,16 @@ if ($request->invoice_no) {
         
         $order->cod_utr = $request->cod_utr;
         $order->cod_remark = $request->cod_remark;
+
+        if ($request->filled('cod_status')) {
+            $order->cod_status = $request->cod_status;
+            if ($order->remittance_id && ($remittance = Remittance::find($order->remittance_id))) {
+                $remittance->status = $request->cod_status;
+                $remittance->paid = $request->cod_paid_amount;
+                $remittance->utr = $request->cod_utr;
+                $remittance->save();
+            }
+        }
         $order->save();
 
         return back()->with('success', 'Remittance updated successfully.');
@@ -5220,12 +5234,25 @@ if ($request->invoice_no) {
     function codcreate(){
         return view('admin.order.codcreate');
     }
+
+    public function downloadCodPaidFormat(){
+        $file = public_path('cod_paid.csv');
+        if (!file_exists($file)) {
+            $file = base_path('cod_paid.csv');
+        }
+        if (file_exists($file)) {
+            return response()->download($file, 'cod_paid.csv', [
+                'Content-Type' => 'text/csv',
+            ]);
+        }
+        return back()->with('error', 'Sample file not found.');
+    }
     
     public function storecod(Request $request){
         try {
-            $collections = (new FastExcel)->import($request->file('excel'));
+            $collections = importExcelOrCsv($request->file('excel'));
         } catch (\Exception $exception) {
-            return back()->with('error','You have uploaded a wrong format file, please upload the right file.');
+            return back()->with('error', 'You have uploaded a wrong format file, please upload the right file.');
         }
         $rem_order_array = array();
         $row_by_awb = array();
@@ -5236,6 +5263,7 @@ if ($request->invoice_no) {
             $transactionDateKey = null;
             $utrKey = null;
             $remarkKey = null;
+            $statusKey = null;
             
             foreach ($row as $key => $value) {
                 $lowerKey = strtolower(trim($key));
@@ -5249,6 +5277,8 @@ if ($request->invoice_no) {
                     $utrKey = $key;
                 } elseif ($lowerKey === 'remark' || $lowerKey === 'remarks') {
                     $remarkKey = $key;
+                } elseif (in_array($lowerKey, ['status', 'cod_status', 'cod status', 'payment_status', 'payment status'])) {
+                    $statusKey = $key;
                 }
             }
             
@@ -5268,10 +5298,6 @@ if ($request->invoice_no) {
             ->first();
             
             if ($getuser) {
-                if ($getuser->cod_status == 'success' || !empty($getuser->remittance_id)) {
-                    continue;
-                }
-                
                 $rem_order_array[$getuser->user]['user'] = $getuser->user;
                 $rem_order_array[$getuser->user]['order'][] = $getuser->id;
                 
@@ -5280,6 +5306,7 @@ if ($request->invoice_no) {
                     'transaction_date' => $transactionDateKey ? trim($row[$transactionDateKey]) : null,
                     'utr' => $utrKey ? trim($row[$utrKey]) : null,
                     'remark' => $remarkKey ? trim($row[$remarkKey]) : null,
+                    'status' => $statusKey ? trim($row[$statusKey]) : null,
                 ];
             }
         }
@@ -5303,27 +5330,46 @@ if ($request->invoice_no) {
                         $utrVal = null;
                     }
                     
-                    $remittance = new Remittance();
-                    $remittance->order_id = $eachord;
-                    $remittance->user_id = $or['user'];
-                    $remittance->updated_at = now();
-                    $remittance->created_at = now();
-                    $remittance->company_id = Admin::find($or['user'])->company_id ?? 1;
-                    $remittance->paid = $paidVal;
-                    $remittance->recharge = 0;
-                    $remittance->cod_amount = $rem_amount;
-                    $remittance->amount = $rem_amount;
-                    $remittance->status = 'success';
-                    $remittance->utr = $utrVal;
-                    $remittance->save();
+                    $rawStatus = isset($row_by_awb[$eachord]['status']) ? strtolower(trim($row_by_awb[$eachord]['status'])) : '';
+                    if (in_array($rawStatus, ['pending', 'unpaid', 'hold', 'process', 'processing'])) {
+                        $finalStatus = 'pending';
+                    } else {
+                        $finalStatus = 'success';
+                    }
                     
-                    $remittance_id = $remittance->id;
+                    if ($order->remittance_id && ($remittance = Remittance::find($order->remittance_id))) {
+                        $remittance->paid = $paidVal;
+                        $remittance->cod_amount = $rem_amount;
+                        $remittance->amount = $rem_amount;
+                        $remittance->status = $finalStatus;
+                        $remittance->utr = $utrVal;
+                        $remittance->updated_at = now();
+                        $remittance->save();
+                        $remittance_id = $remittance->id;
+                    } else {
+                        $remittance = new Remittance();
+                        $remittance->order_id = $eachord;
+                        $remittance->user_id = $or['user'];
+                        $remittance->updated_at = now();
+                        $remittance->created_at = now();
+                        $remittance->company_id = Admin::find($or['user'])->company_id ?? 1;
+                        $remittance->paid = $paidVal;
+                        $remittance->recharge = 0;
+                        $remittance->cod_amount = $rem_amount;
+                        $remittance->amount = $rem_amount;
+                        $remittance->status = $finalStatus;
+                        $remittance->utr = $utrVal;
+                        $remittance->save();
+                        $remittance_id = $remittance->id;
+                    }
                     
                     $order->cod_amount = $rem_amount;
-                    $order->cod_status = 'success';
+                    $order->cod_status = $finalStatus;
                     $order->cod_date = now();
                     $order->remittance_id = $remittance_id;
-                    $order->cod_paid_amount = $paidVal;
+                    if (Schema::hasColumn('orders', 'cod_paid_amount')) {
+                        $order->cod_paid_amount = $paidVal;
+                    }
                     
                     $rawDate = isset($row_by_awb[$eachord]['transaction_date']) ? trim($row_by_awb[$eachord]['transaction_date']) : '';
                     $parsedDate = null;
@@ -5338,14 +5384,20 @@ if ($request->invoice_no) {
                             $parsedDate = null;
                         }
                     }
-                    $order->cod_transaction_date = $parsedDate ? $parsedDate->toDateTimeString() : now();
-                    $order->cod_utr = $utrVal;
+                    if (Schema::hasColumn('orders', 'cod_transaction_date')) {
+                        $order->cod_transaction_date = $parsedDate ? $parsedDate->toDateTimeString() : now();
+                    }
+                    if (Schema::hasColumn('orders', 'cod_utr')) {
+                        $order->cod_utr = $utrVal;
+                    }
                     
                     $remarkVal = isset($row_by_awb[$eachord]['remark']) ? trim($row_by_awb[$eachord]['remark']) : null;
                     if ($remarkVal === '-') {
                         $remarkVal = null;
                     }
-                    $order->cod_remark = $remarkVal;
+                    if (Schema::hasColumn('orders', 'cod_remark')) {
+                        $order->cod_remark = $remarkVal;
+                    }
                     $order->save();
                     
                     $total_paid_in_group += $paidVal;
