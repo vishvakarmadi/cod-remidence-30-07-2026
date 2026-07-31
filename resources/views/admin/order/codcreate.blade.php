@@ -8,7 +8,7 @@ $user_id = Auth::guard('admin')->user()->id;
         <form class="product-form" action="{{ route('admin.order.storecod') }}" method="POST" enctype="multipart/form-data">
             @csrf
             <h4>Import Paid COD</h4>
-            <a href="{{ asset('public/cod_paid.csv') }}" download="cod_paid.csv" class="btn btn-secondary">Download Format</a>
+            <a href="{{ route('admin.order.download_cod_paid_format') }}" class="btn btn-secondary">Download Format</a>
             
                 <div class="form-group col-4">
                     <div class="image-upload">
