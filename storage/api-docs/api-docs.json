@@ -1,0 +1,559 @@
+{
+    "openapi": "3.0.0",
+    "paths": {
+        "/api/login": {
+            "post": {
+                "tags": [
+                    "Authentication"
+                ],
+                "summary": "Login",
+                "description": "Login to system.",
+                "operationId": "login",
+                "requestBody": {
+                    "description": "Pet object that needs to be added to the store",
+                    "required": true,
+                    "content": {
+                        "application/x-www-form-urlencoded": {
+                            "schema": {
+                                "required": [
+                                    "customer_email",
+                                    "customer_password"
+                                ],
+                                "properties": {
+                                    "customer_email": {
+                                        "description": "Customer Email",
+                                        "type": "string"
+                                    },
+                                    "customer_password": {
+                                        "description": "Customer password",
+                                        "type": "string"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "successful operation"
+                    },
+                    "400": {
+                        "description": "Invalid input"
+                    }
+                }
+            }
+        },
+        "/api/register": {
+            "post": {
+                "tags": [
+                    "Authentication"
+                ],
+                "summary": "Register",
+                "description": "Register to system.",
+                "operationId": "register",
+                "requestBody": {
+                    "description": "Pet object that needs to be added to the store",
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "customer_name",
+                                    "customer_email",
+                                    "customer_password",
+                                    "password_confirmation"
+                                ],
+                                "properties": {
+                                    "customer_name": {
+                                        "description": "Customer Name",
+                                        "type": "string",
+                                        "example": "Gomathi"
+                                    },
+                                    "customer_email": {
+                                        "description": "Customer Email",
+                                        "type": "string",
+                                        "example": "gomathi@gmail.com"
+                                    },
+                                    "customer_password": {
+                                        "description": "Customer password",
+                                        "type": "string",
+                                        "example": "12345678"
+                                    },
+                                    "password_confirmation": {
+                                        "description": "Customer confirm password",
+                                        "type": "string",
+                                        "example": "12345678"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "successful operation"
+                    },
+                    "400": {
+                        "description": "Invalid input"
+                    }
+                }
+            }
+        },
+        "/api/profilechange": {
+            "post": {
+                "tags": [
+                    "Authentication"
+                ],
+                "summary": "ProfileChange",
+                "description": "Change your profile",
+                "operationId": "update",
+                "requestBody": {
+                    "description": "Pet object that needs to be added to the store",
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "customer_name",
+                                    "customer_email",
+                                    "customer_phone",
+                                    "customer_country",
+                                    "customer_address",
+                                    "customer_state",
+                                    "customer_city",
+                                    "customer_zip"
+                                ],
+                                "properties": {
+                                    "customer_name": {
+                                        "description": "Customer Name",
+                                        "type": "string",
+                                        "example": "Gomathi"
+                                    },
+                                    "customer_email": {
+                                        "description": "Customer Email",
+                                        "type": "string",
+                                        "example": "gomathi@gmail.com"
+                                    },
+                                    "customer_phone": {
+                                        "description": "Customer Phone",
+                                        "type": "string",
+                                        "example": "1234567897"
+                                    },
+                                    "customer_country": {
+                                        "description": "Customer Country",
+                                        "type": "string",
+                                        "example": "india"
+                                    },
+                                    "customer_address": {
+                                        "description": "Customer Address",
+                                        "type": "string",
+                                        "example": "Chennai"
+                                    },
+                                    "customer_state": {
+                                        "description": "Customer State",
+                                        "type": "string",
+                                        "example": "tamilnadu"
+                                    },
+                                    "customer_city": {
+                                        "description": "Customer City",
+                                        "type": "string",
+                                        "example": "Chennai"
+                                    },
+                                    "customer_zip": {
+                                        "description": "Customer Zip",
+                                        "type": "string",
+                                        "example": "601103"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "successful operation"
+                    },
+                    "400": {
+                        "description": "Invalid input"
+                    }
+                }
+            }
+        },
+        "/api/order": {
+            "post": {
+                "tags": [
+                    "Authentication"
+                ],
+                "summary": "Order",
+                "description": "Customer Orders",
+                "operationId": "order",
+                "requestBody": {
+                    "description": "Pet object that needs to be added to the store",
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "customer_email"
+                                ],
+                                "properties": {
+                                    "customer_email": {
+                                        "description": "Customer Email",
+                                        "type": "string",
+                                        "example": "gomathi@gmail.com"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "successful operation"
+                    },
+                    "400": {
+                        "description": "Invalid input"
+                    }
+                }
+            }
+        },
+        "/api/password_change": {
+            "post": {
+                "tags": [
+                    "Authentication"
+                ],
+                "summary": "Password Change",
+                "description": "Change Password",
+                "operationId": "passwordchange",
+                "requestBody": {
+                    "description": "Pet object that needs to be added to the store",
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "customer_email",
+                                    "customer_password",
+                                    "re_password"
+                                ],
+                                "properties": {
+                                    "customer_email": {
+                                        "description": "Customer Email",
+                                        "type": "string",
+                                        "example": "gomathi@gmail.com"
+                                    },
+                                    "customer_password": {
+                                        "description": "Customer Password",
+                                        "type": "string",
+                                        "example": "12345678"
+                                    },
+                                    "re_password": {
+                                        "description": "Customer Retype Password",
+                                        "type": "string",
+                                        "example": "12345678"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "successful operation"
+                    },
+                    "400": {
+                        "description": "Invalid input"
+                    }
+                }
+            }
+        },
+        "/api/dashboard": {
+            "post": {
+                "tags": [
+                    "Authentication"
+                ],
+                "summary": "Dashboard",
+                "description": "Customer Orders",
+                "operationId": "dashboard",
+                "requestBody": {
+                    "description": "Pet object that needs to be added to the store",
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "customer_email"
+                                ],
+                                "properties": {
+                                    "customer_email": {
+                                        "description": "Customer Email",
+                                        "type": "string",
+                                        "example": "gomathi@gmail.com"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "successful operation"
+                    },
+                    "400": {
+                        "description": "Invalid input"
+                    }
+                }
+            }
+        },
+        "/api/about": {
+            "get": {
+                "tags": [
+                    "Authentication"
+                ],
+                "summary": "About",
+                "description": "About Page",
+                "operationId": "index",
+                "responses": {
+                    "200": {
+                        "description": "successful operation"
+                    },
+                    "401": {
+                        "description": "Unauthennticated"
+                    }
+                }
+            }
+        },
+        "/api/blog": {
+            "get": {
+                "tags": [
+                    "Authentication"
+                ],
+                "summary": "Blog",
+                "description": "Blog Page",
+                "operationId": "index",
+                "responses": {
+                    "200": {
+                        "description": "successful operation"
+                    },
+                    "401": {
+                        "description": "Unauthennticated"
+                    }
+                }
+            }
+        },
+        "/api/blog/eu-paulo-lucilius-adipisci-duo-eam/8": {
+            "get": {
+                "tags": [
+                    "Authentication"
+                ],
+                "summary": "Blog Detail",
+                "description": "Blog Detail Page",
+                "operationId": "detail",
+                "responses": {
+                    "200": {
+                        "description": "successful operation"
+                    },
+                    "401": {
+                        "description": "Unauthennticated"
+                    }
+                }
+            }
+        },
+        "/api/contact": {
+            "post": {
+                "tags": [
+                    "Authentication"
+                ],
+                "summary": "Contact",
+                "description": "Contact",
+                "operationId": "send_email",
+                "requestBody": {
+                    "description": "Pet object that needs to be added to the store",
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "contact_name",
+                                    "contact_email",
+                                    "contact_phone",
+                                    "contact_website",
+                                    "contact_message"
+                                ],
+                                "properties": {
+                                    "contact_name": {
+                                        "description": "Contact Name",
+                                        "type": "string",
+                                        "example": "Gomathi"
+                                    },
+                                    "contact_email": {
+                                        "description": "Contact Email",
+                                        "type": "string",
+                                        "example": "gomathi@gmail.com"
+                                    },
+                                    "contact_phone": {
+                                        "description": "Contact Phone",
+                                        "type": "string",
+                                        "example": "6576676788"
+                                    },
+                                    "contact_website": {
+                                        "description": "Contact Website",
+                                        "type": "string",
+                                        "example": "gomathi@gmail.com"
+                                    },
+                                    "contact_message": {
+                                        "description": "Contact Message",
+                                        "type": "string",
+                                        "example": "hii"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "successful operation"
+                    },
+                    "400": {
+                        "description": "Invalid input"
+                    }
+                }
+            }
+        },
+        "/api/faq": {
+            "get": {
+                "tags": [
+                    "Authentication"
+                ],
+                "summary": "Faq",
+                "description": "Faq Page",
+                "operationId": "index",
+                "responses": {
+                    "200": {
+                        "description": "successful operation"
+                    },
+                    "401": {
+                        "description": "Unauthennticated"
+                    }
+                }
+            }
+        },
+        "/api": {
+            "get": {
+                "tags": [
+                    "Authentication"
+                ],
+                "summary": "Home",
+                "description": "Home Page",
+                "operationId": "index",
+                "responses": {
+                    "200": {
+                        "description": "successful operation"
+                    },
+                    "401": {
+                        "description": "Unauthennticated"
+                    }
+                }
+            }
+        },
+        "/api/privacy": {
+            "get": {
+                "tags": [
+                    "Authentication"
+                ],
+                "summary": "Privacy",
+                "description": "Privacy Policy Page",
+                "operationId": "index",
+                "responses": {
+                    "200": {
+                        "description": "successful operation"
+                    },
+                    "401": {
+                        "description": "Unauthennticated"
+                    }
+                }
+            }
+        },
+        "/api/product": {
+            "get": {
+                "tags": [
+                    "Authentication"
+                ],
+                "summary": "Product",
+                "description": "Product Page",
+                "operationId": "index",
+                "responses": {
+                    "200": {
+                        "description": "successful operation"
+                    },
+                    "401": {
+                        "description": "Unauthennticated"
+                    }
+                }
+            }
+        },
+        "/api/product/CRM-Cloud-Application/28": {
+            "get": {
+                "tags": [
+                    "Authentication"
+                ],
+                "summary": "Product Detail",
+                "description": "Product Detail Page",
+                "operationId": "detail",
+                "responses": {
+                    "200": {
+                        "description": "successful operation"
+                    },
+                    "401": {
+                        "description": "Unauthennticated"
+                    }
+                }
+            }
+        },
+        "/api/term": {
+            "get": {
+                "tags": [
+                    "Authentication"
+                ],
+                "summary": "Terms",
+                "description": "Terms And Condition Page",
+                "operationId": "index",
+                "responses": {
+                    "200": {
+                        "description": "successful operation"
+                    },
+                    "401": {
+                        "description": "Unauthennticated"
+                    }
+                }
+            }
+        }
+    },
+    "components": {
+        "schemas": {}
+    },
+    "security": {
+        "passport": {
+            "type": "oauth2",
+            "description": "Laravel passport oauth2 security.",
+            "in": "header",
+            "scheme": "https",
+            "flows": {
+                "password": {
+                    "authorizationUrl": "https://npcoder.com/oauth/authorize",
+                    "tokenUrl": "https://npcoder.com/oauth/token",
+                    "refreshUrl": "https://npcoder.com/token/refresh",
+                    "scopes": []
+                }
+            }
+        }
+    }
+}

@@ -1,0 +1,38 @@
+.oxyy-login-register .text-4 {
+  font-size: 1.125rem !important;
+}
+.oxyy-login-register img {
+  width: 160px;
+}
+
+.oxyy-login-register .fw-600 {
+  font-weight: 600 !important;
+}
+
+.oxyy-login-register .text-9 {
+  font-size: 2.25rem !important;
+}
+
+.oxyy-login-register .hero-wrap .hero-mask {
+  z-index: 1;
+}
+
+.oxyy-login-register .hero-wrap .hero-mask {
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 100%;
+  width: 100%;
+  background: #fd7e14 !important;
+}
+.oxyy-login-register .opacity-3 {
+  opacity: 0.3;
+}
+.oxyy-login-register .hero-wrap {
+  position: relative;
+  overflow: hidden;
+}
+.oxyy-login-register .hero-wrap .hero-content {
+  position: relative;
+  z-index:2;
+}

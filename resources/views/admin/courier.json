@@ -1,0 +1,62 @@
+{
+    "2" : {
+        "name" : "Delhivery",
+        "url" : "https://www.delhivery.com/track/package/",
+        "image" : "delhivery.svg"
+    },
+    "3" : {
+        "name" : "Bluedart",
+        "url" : "https://bluedart.com/tracking?",
+        "image" : "bluedart.svg"
+    },
+    "4" : {
+        "name" : "XpressBees",
+        "url" : "https://www.xpressbees.com/shipment/tracking?awbNo=",
+        "image" : "xpress_bees.svg"
+    },
+    "5" : {
+        "name" : "DTDC",
+        "url" : "https://www.dtdc.in/trace.asp?str=",
+        "image" : "dtdc.png"
+    },
+    "7" : {
+        "name" : "Ekart",
+        "url" : "https://ekartlogistics.com/shipmenttrack/",
+        "image" : "ekart.png"
+    },
+    "8" : {
+        "name" : "Shadowfax",
+        "url" : "https://track.shadowfax.in/?ShipmentNumber=",
+        "image" : "shadowfax.png"
+    },
+    "9" : {
+        "name" : "ATS",
+        "url" : "https://track.amazon.in/tracking/",
+        "image" : "ats.png"
+    },
+    "10" : {
+        "name" : "Blitz",
+        "url" : "https://track.blitznow.in/",
+        "image" : "blitz.png"
+    },
+    "11" : {
+        "name" : "Shree Maruti",
+        "url" : "https://shreemaruti.com/track-shipment/",
+        "image" : "shreemaruti.png"
+    },
+    "12" : {
+        "name" : "PiknDel",
+        "url" : "https://pikndel.com/tracking",
+        "image" : "PiknDel.jpg"
+    },
+    "13" : {
+        "name" : "Parcel Uncle",
+        "url" : "https://parceluncle.com/carrier/v1/merchant/shipments/",
+        "image" : "parcel_uncle.png"
+    },
+    "14" : {
+        "name" : "India Post",
+        "url" : "https://www.indiapost.gov.in/_layouts/15/dop.portal.tracking/trackconsignment.aspx?consignmentNo=",
+        "image" : "kimipostlogo.png"
+    }
+}

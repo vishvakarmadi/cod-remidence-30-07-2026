@@ -1,0 +1,300 @@
+:root {
+  --bs-themecolor: #744245;
+  /*--bs-themecolor: #fd7e14;*/
+}
+*{
+  font-family: Poppins, sans-serif;
+}
+
+/*-------- Preloader --------*/
+.preloader {
+  position: fixed;
+  width: 100%;
+  height: 100%;
+  z-index: 999999999 !important;
+  background-color: #fff;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+}
+
+.preloader .lds-ellipsis {
+  display: inline-block;
+  position: absolute;
+  width: 80px;
+  height: 80px;
+  margin-top: -40px;
+  margin-left: -40px;
+  top: 50%;
+  left: 50%;
+}
+
+.preloader .lds-ellipsis div {
+  position: absolute;
+  top: 33px;
+  width: 13px;
+  height: 13px;
+  border-radius: 50%;
+  background: #000;
+  animation-timing-function: cubic-bezier(0, 1, 1, 0);
+}
+
+.preloader .lds-ellipsis div:nth-child(1) {
+  left: 8px;
+  animation: lds-ellipsis1 0.6s infinite;
+}
+
+.preloader .lds-ellipsis div:nth-child(2) {
+  left: 8px;
+  animation: lds-ellipsis2 0.6s infinite;
+}
+
+.preloader .lds-ellipsis div:nth-child(3) {
+  left: 32px;
+  animation: lds-ellipsis2 0.6s infinite;
+}
+
+.preloader .lds-ellipsis div:nth-child(4) {
+  left: 56px;
+  animation: lds-ellipsis3 0.6s infinite;
+}
+
+.preloader.preloader-dark {
+  background-color: #000;
+}
+
+.preloader.preloader-dark .lds-ellipsis div {
+  background-color: #fff;
+}
+
+@keyframes lds-ellipsis1 {
+  0% {
+    transform: scale(0);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
+@keyframes lds-ellipsis3 {
+  0% {
+    transform: scale(1);
+  }
+  100% {
+    transform: scale(0);
+  }
+}
+
+@keyframes lds-ellipsis2 {
+  0% {
+    transform: translate(0, 0);
+  }
+  100% {
+    transform: translate(24px, 0);
+  }
+}
+
+
+/*-------- Preloader End --------*/
+.mx-auto{
+  color: #000;
+}
+a,
+a:hover {
+  color: var(--bs-themecolor);
+}
+
+.kimpost-register {
+  background: #fff;
+}
+
+.kimpost-register .text-4 {
+  font-size: 1.125rem !important;
+}
+
+label.control-label.form-label.fw-500 {
+  font-weight: 500 !important;
+  color: #4c4d4d;
+}
+
+.kimpost-register .text-5 {
+  font-size: 1.6rem;
+  text-transform: uppercase;
+  text-decoration: none;
+  font-weight: 600;
+}
+
+.kimpost-register img {
+  max-width: 100%;
+}
+
+.loginform{
+  box-shadow: 0 0 10px #0002;
+    border-radius: 30px;
+    background-color: #fff;
+    z-index: 1;
+}
+.kimpost-register {
+  background: url(https://thumbs.dreamstime.com/b/logistics-import-export-background-transport-industry-container-cargo-freight-ship-sunset-sky-137520342.jpg) no-repeat center;
+  background-size: cover;
+}
+
+div.kimpost-register:after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.4);
+}
+.kimpost-register .fw-600 {
+  font-weight: 600 !important;
+}
+
+.kimpost-register .text-9 {
+  font-size: 2.25rem !important;
+}
+
+.kimpost-register .hero-wrap .hero-mask {
+  z-index: 1;
+}
+
+.kimpost-register .hero-wrap .hero-mask {
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 100%;
+    width: 100%;
+    background-color: transparent !important;
+}
+
+.kimpost-register .opacity-3 {
+  opacity: 0.3;
+}
+
+.kimpost-register .hero-wrap {
+  position: relative;
+  overflow: hidden;
+}
+
+.kimpost-register .hero-wrap .hero-content {
+  position: relative;
+  z-index: 2;
+}
+
+
+form {
+  padding: 0;
+  margin: 0;
+  display: inline;
+}
+
+.kimpost-register .form-control:not(.form-control-sm) {
+  padding: .710rem .96rem;
+  height: inherit;
+}
+
+.kimpost-register .form-control.border-light {
+  border-color: #f5f5f6 !important;
+}
+
+.kimpost-register .form-control.bg-light {
+  background-color: #f5f5f6 !important;
+}
+
+.kimpost-register .form-control {
+  box-shadow: inset 0 0;
+}
+
+.kimpost-register .btn:not(.btn-link) {
+  -webkit-box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.15);
+  box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.15);
+}
+
+.kimpost-register .btn-primary {
+  --bs-btn-color: var(--bs-white);
+  --bs-btn-bg: var(--bs-themecolor);
+  --bs-btn-border-color: var(--bs-themecolor);
+  --bs-btn-hover-color: var(--bs-white);
+  --bs-btn-hover-bg: var(--bs-themehovercolor);
+  --bs-btn-hover-border-color: var(--bs-themehovercolor);
+  --bs-btn-active-color: var(--bs-btn-hover-color);
+  --bs-btn-active-bg: var(--bs-themehovercolor);
+  --bs-btn-active-border-color: var(--bs-themehovercolor);
+}
+
+.kimpost-register .btn {
+  padding: 0.6rem 2.6rem;
+  font-weight: 500;
+  -webkit-transition: all 0.5s ease;
+  transition: all 0.5s ease;
+}
+
+button#btnsubmit {
+  color: #fff !important;
+  background-color: var(--bs-themecolor) !important;
+  border-color: var(--bs-themecolor) !important;
+  /* width: 100%; */
+  font-size: 1.05rem;
+}
+
+.login_footer {
+  position: fixed;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 3;
+}
+
+ul.fotter_li {
+  margin: 0;
+  list-style: none;
+  padding: 10px;
+  background-color: #333;
+  text-align: center;
+  box-shadow: 0 -2px 5px rgba(0, 0, 0, 0.2);
+}
+
+ul.fotter_li li a {
+  padding: 0 1rem;
+  color: #fff;
+  text-decoration: none;
+}
+
+
+ul.fotter_li li {
+  display: inline-block;
+}
+
+.rectangle-radio {
+  display: flex;
+}
+
+.rectangle-radio .radio-label {
+  position: relative;
+  margin-right: 10px;
+  display: flex;
+  align-items: center;
+}
+
+.container form .user_details {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+}
+
+.rectangle-radio input[type="radio"] {
+  appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  width: 20px;
+  height: 20px;
+  border: 2px solid #000;
+  border-radius: 4px;
+  outline: none;
+  margin-right: 5px;
+  cursor: pointer;
+}
+
+.txt-heading {
+  color: var(--bs-themecolor);
+}

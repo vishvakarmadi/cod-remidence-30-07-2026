@@ -1,0 +1,44 @@
+/node_modules
+/public/hot
+/public/storage
+/vendor
+
+# Storage directory
+/storage/*.key
+/storage/*.json
+/storage/app/*
+!/storage/app/.gitignore
+!/storage/app/public/.gitignore
+/storage/framework/cache/*
+!/storage/framework/cache/.gitignore
+/storage/framework/sessions/*
+!/storage/framework/sessions/.gitignore
+/storage/framework/testing/*
+!/storage/framework/testing/.gitignore
+/storage/framework/views/*
+!/storage/framework/views/.gitignore
+/storage/logs/*
+!/storage/logs/.gitignore
+
+# Environment files & Secrets
+.env
+.env.*
+(1).env
+*.env
+!.env.example
+
+# Logs and debug files
+*.log
+debug_bd.json
+woocommerce/*.log
+product.json
+
+# Other build/IDE files
+.phpunit.result.cache
+docker-compose.override.yml
+Homestead.json
+Homestead.yaml
+npm-debug.log
+yarn-error.log
+.idea/
+.vscode/
