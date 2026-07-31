@@ -49,7 +49,7 @@
                                 <div class="row">
                                     <div class="form-group col-md-6">
                                         <label class="form-control-label">User / Seller</label>
-                                        <select name="user_id" class="form-control">
+                                        <select name="user_id" class="form-control select2-user">
                                             <option value="">All Sellers</option>
                                             @foreach($allusers as $us)
                                                 <option value='{{$us->id}}' <?php if($selected_user_id == $us->id){echo 'selected';} ?>>{{ $us->id }} - {{ $us->name }} ({{ $us->mobile }})</option>
@@ -73,23 +73,13 @@
     <div class="col-xl-12">
         <div class="container-fluid">
             <div class="row clearfix">
-                <div class="col-6">
+                <div class="col-12">
                     <div class="card pt-30">
                         <div class="card-header">
                             <h5 class="card-title mb-0">Total Remittance Paid</h5>
                         </div>
                         <div class="card-body">
                             <h5>RS. {{ number_format($paid, 2) }}</h5>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-6">
-                    <div class="card pt-30">
-                        <div class="card-header">
-                            <h5 class="card-title mb-0">Last Remittance</h5>
-                        </div>
-                        <div class="card-body">
-                            <h5>RS. {{ number_format($lastremitance[0]->lastlemamount ?? 0, 2) }}</h5>
                         </div>
                     </div>
                 </div>
@@ -157,6 +147,7 @@
                                                 data-payment-date="{{ $or->cod_transaction_date ? \Carbon\Carbon::parse($or->cod_transaction_date)->format('Y-m-d\TH:i') : '' }}"
                                                 data-utr="{{ $or->cod_utr }}"
                                                 data-remark="{{ $or->cod_remark }}"
+                                                data-status="{{ $or->cod_status }}"
                                                 data-toggle="modal" data-target="#editRemittanceModal">
                                                 <i class="fa fa-edit"></i> Edit
                                             </button>
@@ -165,7 +156,7 @@
                                     </tr>
                                     @endforeach
                                 @else
-                                    <tr><td colspan="{{ $user->role_id == '1' ? 12 : 11 }}">No Order Delivered yet</td></tr>
+                                     <tr><td colspan="{{ $user->role_id == '1' ? 12 : 11 }}" class="text-center text-muted">No Remittance Records Found</td></tr>
                                 @endif
                             </tbody>
                         </table>        
@@ -188,6 +179,13 @@
                 @csrf
                 <input type="hidden" name="order_id" id="modal-order-id">
                 <div class="modal-body">
+                    <div class="form-group">
+                         <label>Status</label>
+                         <select name="cod_status" id="modal-status" class="form-control" required>
+                             <option value="success">Paid</option>
+                             <option value="pending">Unpaid (Pending)</option>
+                         </select>
+                    </div>
                     <div class="form-group">
                          <label>Paid Amount</label>
                          <input type="number" step="any" name="cod_paid_amount" id="modal-paid-amount" class="form-control" required>
@@ -227,6 +225,7 @@
             var paymentDate = $(this).data('payment-date');
             var utr = $(this).data('utr');
             var remark = $(this).data('remark');
+            var status = $(this).data('status') || 'success';
 
             $('#modal-order-id').val(id);
             $('#modal-awb-display').text(awb);
@@ -234,6 +233,7 @@
             $('#modal-payment-date').val(paymentDate);
             $('#modal-utr').val(utr);
             $('#modal-remark').val(remark);
+            $('#modal-status').val(status);
         });
         
         $('.expand').on('click',function() {
@@ -249,6 +249,14 @@
 
 <script>
     $(document).ready(function() {
+        if ($('.select2-user').length) {
+            $('.select2-user').select2({
+                placeholder: "Search User / Seller...",
+                allowClear: true,
+                width: '100%'
+            });
+        }
+
         if ($.fn.DataTable.isDataTable('.sorttablenew')) {
             $('.sorttablenew').DataTable().destroy();
         }
