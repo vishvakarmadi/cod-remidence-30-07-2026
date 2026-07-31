@@ -238,6 +238,7 @@ Route::get('sample', function () {
         Route::post('order/paid', [OrderControllerForAdmin::class,'paid'])->name('admin.order.paid');
         Route::get('coddownload/{id}', [OrderControllerForAdmin::class,'coddownload'])->name('coddownload');
         Route::get('cod/create', [OrderControllerForAdmin::class,'codcreate'])->name('admin.order.codcreate');
+        Route::get('cod/download-format', [OrderControllerForAdmin::class, 'downloadCodPaidFormat'])->name('admin.order.download_cod_paid_format');
         Route::post('cod/storecod', [OrderControllerForAdmin::class,'storecod'])->name('admin.order.storecod');
         Route::post('cod/updateremittance', [OrderControllerForAdmin::class,'updateremittance'])->name('admin.order.updateremittance');
         Route::get('order/unfulfillpage', [OrderControllerForAdmin::class,'unfulfilled'])->name('admin.order.unfulfilled');

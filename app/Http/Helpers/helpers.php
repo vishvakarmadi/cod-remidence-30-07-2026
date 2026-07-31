@@ -234,3 +234,45 @@ function api_activity_logs($requested_data,$response_sent,$user_id=0){
         'request_type'   => request()->method(),
     ]);
 }
+
+function importExcelOrCsv($file)
+{
+    if (!$file) {
+        throw new \Exception("No file uploaded.");
+    }
+    
+    $extension = strtolower($file->getClientOriginalExtension());
+    $tempFileName = 'temp_import_' . time() . '_' . uniqid() . '.' . ($extension ?: 'csv');
+    $tempPath = storage_path('app/' . $tempFileName);
+    
+    $file->move(storage_path('app'), $tempFileName);
+    
+    $collections = collect();
+    try {
+        if ($extension === 'csv') {
+            try {
+                $collections = (new \Rap2hpoutre\FastExcel\FastExcel)->import($tempPath);
+            } catch (\Exception $e) {
+                $collections = collect();
+                if (($handle = fopen($tempPath, "r")) !== FALSE) {
+                    $headers = fgetcsv($handle, 1000, ",");
+                    if ($headers) {
+                        $headers[0] = preg_replace('/[\x{EF}\x{BB}\x{BF}]/u', '', $headers[0]);
+                        while (($data = fgetcsv($handle, 1000, ",")) !== FALSE) {
+                            if (count($data) == count($headers)) {
+                                $collections->push(array_combine($headers, $data));
+                            }
+                        }
+                    }
+                    fclose($handle);
+                }
+            }
+        } else {
+            $collections = (new \Rap2hpoutre\FastExcel\FastExcel)->import($tempPath);
+        }
+    } finally {
+        @unlink($tempPath);
+    }
+    
+    return $collections;
+}
