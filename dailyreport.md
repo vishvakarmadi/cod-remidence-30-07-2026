@@ -19,3 +19,6 @@ Work Updates
 14=> Added dynamic `status` column parsing (`pending` vs `paid`/`success`) from CSV imports to set remittance and order statuses accordingly.
 15=> Fixed Remittance List empty `-` rows issue by enforcing valid `remittances` join (`remittance_id > 0`), ensuring only actual remitted records appear.
 16=> Added Status dropdown (`Paid` vs `Unpaid / Pending`) in Edit Remittance modal and updated `updateremittance` controller method to update status on Order & Remittance records.
+17=> Fixed `Call to undefined function importExcelOrCsv()` by regenerating Composer autoloader (`composer dump-autoload`) and clearing application caches (`php artisan optimize:clear`).
+18=> Renamed "Payments" menu option in the admin sidebar to "Finance" across layout files (`admin_layouts.blade.php` and `employee_dashboard.blade.php`).
+

@@ -318,7 +318,7 @@ display: none;
 
                         <li class="middle sidebar-menu-item sidebar-dropdown">
                             <a href="javascript:void" class="has-arrow"><i class="fa fa-truck"></i><span
-                                    class="menu-title">Payments</span></a>
+                                    class="menu-title">Finance</span></a>
                             <ul>
                         <!--        <li><a class="menu" href="{{ route('admin.payment.wallet') }}">Wallet Recharge</a></li> -->
                                 <li><a class="menu" href="{{ route('admin.coupon.index') }}">Coupon</a></li>
