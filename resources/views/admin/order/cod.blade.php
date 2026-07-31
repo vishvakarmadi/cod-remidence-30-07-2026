@@ -77,7 +77,10 @@
                                     <script>
                                         $(document).ready(function() {
                                             $('#multiple-checkboxes').multiselect({
-                                            includeSelectAllOption: true,
+                                                includeSelectAllOption: true,
+                                                enableFiltering: true,
+                                                enableCaseInsensitiveFiltering: true,
+                                                filterPlaceholder: 'Search User / Seller...'
                                             });
                                         });
                                     </script>
@@ -250,6 +253,7 @@
                                                     data-payment-date="{{ $or->cod_transaction_date ? \Carbon\Carbon::parse($or->cod_transaction_date)->format('Y-m-d\TH:i') : '' }}"
                                                     data-utr="{{ $or->cod_utr }}"
                                                     data-remark="{{ $or->cod_remark }}"
+                                                    data-status="{{ $or->cod_status }}"
                                                     data-toggle="modal" data-target="#editRemittanceModal">
                                                     <i class="fa fa-edit"></i> Edit
                                                 </button>
@@ -298,6 +302,13 @@
                 @csrf
                 <input type="hidden" name="order_id" id="modal-order-id">
                 <div class="modal-body">
+                    <div class="form-group">
+                         <label>Status</label>
+                         <select name="cod_status" id="modal-status" class="form-control" required>
+                             <option value="success">Paid</option>
+                             <option value="pending">Unpaid (Pending)</option>
+                         </select>
+                    </div>
                     <div class="form-group">
                          <label>Paid Amount</label>
                          <input type="number" step="any" name="cod_paid_amount" id="modal-paid-amount" class="form-control" required>
@@ -348,6 +359,7 @@
             var paymentDate = $(this).data('payment-date');
             var utr = $(this).data('utr');
             var remark = $(this).data('remark');
+            var status = $(this).data('status') || 'success';
 
             $('#modal-order-id').val(id);
             $('#modal-awb-display').text(awb);
@@ -355,6 +367,7 @@
             $('#modal-payment-date').val(paymentDate);
             $('#modal-utr').val(utr);
             $('#modal-remark').val(remark);
+            $('#modal-status').val(status);
         });
         
         $('.expand').on('click',function() {
