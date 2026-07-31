@@ -3682,7 +3682,7 @@ if ($request->invoice_no) {
    public function bulkorderstore1(Request $request)
    {
         try {
-            $collections = importExcelOrCsv($request->file('excel'));
+            $collections = \importExcelOrCsv($request->file('excel'));
         } catch (\Exception $exception) {
             return back()->with('error','You have uploaded a wrong format file, please upload the right file.');
         }
@@ -4031,7 +4031,7 @@ if ($request->invoice_no) {
     public function bulkorderstore(Request $request)
     {
         try {
-            $collections = importExcelOrCsv($request->file('excel'));
+            $collections = \importExcelOrCsv($request->file('excel'));
         } catch (\Exception $exception) {
             return back()->with('error', 'You have uploaded a wrong format file, please upload the right file.');
         }
@@ -5250,7 +5250,7 @@ if ($request->invoice_no) {
     
     public function storecod(Request $request){
         try {
-            $collections = importExcelOrCsv($request->file('excel'));
+            $collections = \importExcelOrCsv($request->file('excel'));
         } catch (\Exception $exception) {
             return back()->with('error', 'You have uploaded a wrong format file, please upload the right file.');
         }
