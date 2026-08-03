@@ -1334,6 +1334,58 @@ class PaymentController extends Controller
         return view('admin.payment.walletreport', compact('transactions', 'users'));
     }
 
+    /*
+    public function updateWalletRecharge(Request $request)
+    {
+        $user = Auth::guard('admin')->user();
+        if ($user->role_id != '1') {
+            return redirect()->back()->with('error', 'Unauthorized access! Only admins can edit recharge details.');
+        }
+
+        $request->validate([
+            'transaction_id' => 'required|exists:transactions,id',
+            'amount'         => 'required|numeric|min:0',
+            'coupon_amount'  => 'nullable|numeric|min:0',
+            'remarks'        => 'nullable|string',
+        ]);
+
+        $transaction = Transaction::findOrFail($request->transaction_id);
+
+        $newAmount = (float)$request->amount;
+        $newCouponAmount = (float)($request->coupon_amount ?? 0);
+        $newTotalCredit = $newAmount + $newCouponAmount;
+
+        $oldTotalCredit = (float)$transaction->credit;
+        $creditDiff = $newTotalCredit - $oldTotalCredit;
+
+        // Update transaction fields
+        $transaction->credit = $newTotalCredit;
+        if (Schema::hasColumn('transactions', 'coupon_amount')) {
+            $transaction->coupon_amount = $newCouponAmount;
+        }
+
+        if ($request->filled('remarks')) {
+            $decoded = json_decode($transaction->remarks, true);
+            if (is_array($decoded)) {
+                $decoded['admin_edit_remark'] = $request->remarks;
+                $transaction->remarks = json_encode($decoded);
+            } else {
+                $transaction->remarks = $request->remarks;
+            }
+        }
+        $transaction->save();
+
+        // Adjust User Wallet Balance
+        $targetUser = Admin::find($transaction->user_id);
+        if ($targetUser) {
+            $targetUser->wallet_blc = ($targetUser->wallet_blc ?? 0) + $creditDiff;
+            $targetUser->save();
+        }
+
+        return redirect()->back()->with('success', 'Wallet recharge transaction updated successfully! User wallet balance updated accordingly.');
+    }
+    */
+
     
     
        public function refundCheck($payment_id)

@@ -659,11 +659,23 @@ class FrontController extends Controller
 
         try {
             // ✅ Archive order
-            DB::table('archive_orders')->insert((array)$order);
+            $archiveColumns = \Illuminate\Support\Facades\Schema::getColumnListing('archive_orders');
+            $orderArray = (array)$order;
+            if(!empty($archiveColumns)) {
+                $orderArray = array_intersect_key($orderArray, array_flip($archiveColumns));
+            }
+            DB::table('archive_orders')->insert($orderArray);
 
             // ✅ Archive all order details (IMPORTANT: use loop)
+            $archiveDetailColumns = \Illuminate\Support\Facades\Schema::getColumnListing('archive_order_details');
             foreach ($order_details as $detail) {
-                DB::table('archive_order_details')->insert((array)$detail);
+                $detailArray = (array)$detail;
+                if(!empty($archiveDetailColumns)) {
+                    $detailArray = array_intersect_key($detailArray, array_flip($archiveDetailColumns));
+                }
+                if(!empty($detailArray)){
+                    DB::table('archive_order_details')->insert($detailArray);
+                }
             }
 
             // ✅ Delete original records

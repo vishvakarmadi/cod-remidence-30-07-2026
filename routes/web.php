@@ -438,6 +438,7 @@ Route::get('sample', function () {
         //     abort(404);
         // })->name('admin.payment.wallet');
         Route::get('payment/walletreport', [PaymentController::class,'walletreport'])->name('admin.payment.walletreport');
+        // Route::post('payment/walletreport/update', [PaymentController::class,'updateWalletRecharge'])->name('admin.payment.walletreport.update');
         Route::get('add/balance', [PaymentController::class,'add_wallet'])->name('admin.add.balance');
         Route::get('payment/refund-check/{payment_id}', [PaymentController::class,'refundCheck'])->name('admin.payment.refund_check');
         Route::post('payment/add_money', [PaymentController::class,'add_money'])->name('admin.payment.add_money');

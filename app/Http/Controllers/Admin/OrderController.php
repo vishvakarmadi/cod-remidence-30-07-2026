@@ -1284,15 +1284,25 @@ if ($request->invoice_no) {
                 $order_details=DB::table('order_details')->where('user_id', $user_id)->where('order_id', $id)->where('company_id',$current_company_id)->first();
                 
               	if(isset($order->id)){
+                    $archiveColumns = \Illuminate\Support\Facades\Schema::getColumnListing('archive_orders');
                     $orderArray = (array)$order;
+                    if(!empty($archiveColumns)) {
+                        $orderArray = array_intersect_key($orderArray, array_flip($archiveColumns));
+                    }
                     DB::table('archive_orders')->insert($orderArray);
-                    $order_details_array=(array)$order_details;
-                    DB::table('archive_order_details')->insert($order_details_array);
+
+                    $archiveDetailColumns = \Illuminate\Support\Facades\Schema::getColumnListing('archive_order_details');
+                    $order_details_array = (array)$order_details;
+                    if(!empty($archiveDetailColumns) && !empty($order_details_array)) {
+                        $order_details_array = array_intersect_key($order_details_array, array_flip($archiveDetailColumns));
+                    }
+                    if(!empty($order_details_array)){
+                        DB::table('archive_order_details')->insert($order_details_array);
+                    }
                     
-                $orders = DB::table('orders')->where('user_id', $user_id)->where('company_id',$current_company_id)->where('id', $id)->delete();
-                $orderdetail = DB::table('order_details')->where('user_id', $user_id)->where('company_id',$current_company_id)->where('order_id', $id)->delete();
-                createlogs('deleted', 'order', $id);
-                // return redirect()->route('admin.order.index')->with('success', 'Orders Deleted Successfully!');
+                    $orders = DB::table('orders')->where('user_id', $user_id)->where('company_id',$current_company_id)->where('id', $id)->delete();
+                    $orderdetail = DB::table('order_details')->where('user_id', $user_id)->where('company_id',$current_company_id)->where('order_id', $id)->delete();
+                    createlogs('deleted', 'order', $id);
                 }
                 else{
                     return back()->with('error',"Only new OR self user order can be deleted");
